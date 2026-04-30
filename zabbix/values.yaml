@@ -1,27 +1,57 @@
-namespaceOverride: "monitoring"
+# ─────────────────────────────────────────
+# Namespace
+# ─────────────────────────────────────────
+namespace: tooling
 
-zabbixServer:
+# ─────────────────────────────────────────
+# Ingress
+# ─────────────────────────────────────────
+ingress:
   enabled: true
+  className: nginx              # change to "azure/application-gateway" for AKS with App Gateway
+  host: zabbix.example.com      # change to your domain
+  path: /
+  pathType: Prefix
+  servicePort: 80
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/proxy-body-size: "10m"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+    # Uncomment for cert-manager TLS
+    # cert-manager.io/cluster-issuer: letsencrypt-prod
+  tls:
+    enabled: false              # set to true to enable HTTPS
+    secretName: zabbix-tls
 
-zabbixWeb:
-  enabled: true
+# ─────────────────────────────────────────
+# Zabbix (subchart values)
+# ─────────────────────────────────────────
+zabbix:
+  zabbixServer:
+    enabled: true
 
-zabbixProxy:
-  enabled: true  # enable later if needed
+  zabbixWeb:
+    enabled: true
+    service:
+      type: ClusterIP           # ingress handles external access
+      port: 80
 
-zabbixAgent:
-  enabled: true
-  runAsDaemonSet: true
+  zabbixWebService:
+    enabled: true
 
-kube-state-metrics:
-  enabled: true
+  zabbixProxy:
+    enabled: false              # enable if monitoring remote networks
 
-postgresql:
-  enabled: true
-  auth:
-    username: zabbix
-    password: zabbix
-    database: zabbix
+  zabbixAgent:
+    enabled: true
+    runAsDaemonSet: true        # deploy agent on every node
 
-zabbixWebService:
-  enabled: true
+  kube-state-metrics:
+    enabled: true               # K8s cluster metrics
+
+  postgresql:
+    enabled: true
+    auth:
+      username: zabbix
+      password: zabbix          # change in production!
+      database: zabbix
