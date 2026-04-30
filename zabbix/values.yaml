@@ -1,0 +1,27 @@
+namespaceOverride: "monitoring"
+
+zabbixServer:
+  enabled: true
+
+zabbixWeb:
+  enabled: true
+
+zabbixProxy:
+  enabled: true  # enable later if needed
+
+zabbixAgent:
+  enabled: true
+  runAsDaemonSet: true
+
+kube-state-metrics:
+  enabled: true
+
+postgresql:
+  enabled: true
+  auth:
+    username: zabbix
+    password: zabbix
+    database: zabbix
+
+zabbixWebService:
+  enabled: true
