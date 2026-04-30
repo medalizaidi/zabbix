@@ -1,0 +1,11 @@
+apiVersion: v2
+name: zabbix-stack
+description: Umbrella Helm chart for Zabbix monitoring stack with namespace and ingress
+type: application
+version: 1.0.0
+appVersion: "7.0"
+
+dependencies:
+  - name: zabbix
+    version: ">=1.0.0"
+    repository: https://zabbix-community.github.io/helm-zabbix

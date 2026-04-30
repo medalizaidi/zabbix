@@ -1,4 +1,0 @@
-{{ range .Values.extraManifests }}
----
-{{ include "zabbix.tools.render" (dict "value" . "context" $) }}
-{{ end }}
