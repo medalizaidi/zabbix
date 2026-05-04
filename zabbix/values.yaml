@@ -27,6 +27,7 @@ ingress:
 # Zabbix (subchart values)
 # ─────────────────────────────────────────
 zabbix:
+
   zabbixServer:
     enabled: true
 
