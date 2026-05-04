@@ -7,5 +7,5 @@ appVersion: "7.0"
 
 dependencies:
   - name: zabbix
-    version: ">=1.0.0"
-    repository: https://zabbix-community.github.io/helm-zabbix
+    version: "7.0.16"
+    repository: "file://./chart/zabbix"
